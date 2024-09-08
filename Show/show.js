@@ -10,7 +10,12 @@ document.getElementById('dateRangeForm').addEventListener('submit', function (ev
     }
 
     fetch(`http://localhost:3000/citas/data/rango?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta de la red.');
+            }
+            return response.json();
+        })
         .then(data => {
             const citasContainer = document.getElementById('citasContainer');
             citasContainer.innerHTML = ''; 
@@ -26,9 +31,9 @@ document.getElementById('dateRangeForm').addEventListener('submit', function (ev
 
                 citaElement.innerHTML = `
                     <div class="card">
-                        <img src="http://localhost:3000/citas/images/${cita.imageFile || 'placeholder.jpg'}" class="card-img-top" alt="Imagen de la cita">
+                        <img src="http://localhost:3000/citas/images/${cita.ImageFile || 'placeholder.jpg'}" class="card-img-top" alt="Imagen de la cita">
                         <div class="card-body">
-                            <h5 class="card-title">ID: ${cita.id}</h5>
+                            <h5 class="card-title">ID: ${cita.Id}</h5>
                             <p class="card-text">Estado: ${cita.Estado}</p>
                             <p class="card-text">Fecha: ${cita.Fecha}</p>
                             <p class="card-text">Descripción: ${cita.Descripción || 'No disponible'}</p>
