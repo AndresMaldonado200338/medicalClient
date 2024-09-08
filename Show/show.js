@@ -4,11 +4,13 @@ document.getElementById('dateRangeForm').addEventListener('submit', function (ev
     const fechaInicio = document.getElementById('fechaInicio').value;
     const fechaFin = document.getElementById('fechaFin').value;
 
+    // Validar fechas
     if (!fechaInicio || !fechaFin) {
         alert('Por favor, ingrese ambas fechas.');
         return;
     }
 
+    // Hacer la solicitud al servidor
     fetch(`http://localhost:3000/citas/data/rango?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`)
         .then(response => {
             if (!response.ok) {
@@ -18,9 +20,9 @@ document.getElementById('dateRangeForm').addEventListener('submit', function (ev
         })
         .then(data => {
             const citasContainer = document.getElementById('citasContainer');
-            citasContainer.innerHTML = ''; 
+            citasContainer.innerHTML = ''; // Limpia el contenedor antes de agregar nuevas citas
 
-            if (data.length === 0) {
+            if (!Array.isArray(data) || data.length === 0) {
                 citasContainer.innerHTML = '<p>No se encontraron citas en el rango de fechas proporcionado.</p>';
                 return;
             }
@@ -35,7 +37,7 @@ document.getElementById('dateRangeForm').addEventListener('submit', function (ev
                         <div class="card-body">
                             <h5 class="card-title">ID: ${cita.Id}</h5>
                             <p class="card-text">Estado: ${cita.Estado}</p>
-                            <p class="card-text">Fecha: ${cita.Fecha}</p>
+                            <p class="card-text">Fecha: ${cita.Fecha || cita.appointmentDate}</p>
                             <p class="card-text">Descripción: ${cita.Descripción || 'No disponible'}</p>
                         </div>
                     </div>

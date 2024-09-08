@@ -55,8 +55,8 @@ document.getElementById('newAppointmentForm').addEventListener('submit', functio
 
     if (isValid) {
         const formData = new FormData();
-        formData.append('documentNumber', documentNumber.value);
-        formData.append('appointmentDate', appointmentDate.value);
+        formData.append('cc', documentNumber.value);
+        formData.append('Fecha', appointmentDate.value);
         formData.append('file', file);
 
         fetch('http://localhost:3000/citas/data', {
@@ -70,7 +70,7 @@ document.getElementById('newAppointmentForm').addEventListener('submit', functio
                 return response.json();
             })
             .then(data => {
-                showSuccessPopup(data.id);
+                showSuccessPopup(data.Id);
                 document.getElementById('newAppointmentForm').reset();
             })
             .catch(error => {
