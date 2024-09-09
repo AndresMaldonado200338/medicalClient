@@ -33,7 +33,7 @@ document.getElementById('dateRangeForm').addEventListener('submit', function (ev
 
                 citaElement.innerHTML = `
                     <div class="card">
-                        <img src="http://localhost:3000/citas/images/${cita.ImageFile || 'placeholder.jpg'}" class="card-img-top" alt="Imagen de la cita">
+                        <img src="http://localhost:3000/citas/images/${cita.ImageFile || 'placeholder.jpg'}" class="card-img-top" alt="Imagen de la cita" data-bs-toggle="modal" data-bs-target="#imageModal" data-image-src="http://localhost:3000/citas/images/${cita.ImageFile || 'placeholder.jpg'}">
                         <div class="card-body">
                             <h5 class="card-title">ID: ${cita.Id}</h5>
                             <p class="card-text">Estado: ${cita.Estado}</p>
@@ -42,8 +42,15 @@ document.getElementById('dateRangeForm').addEventListener('submit', function (ev
                         </div>
                     </div>
                 `;
-                
+
                 citasContainer.appendChild(citaElement);
+            });
+
+            document.querySelectorAll('.card-img-top').forEach(img => {
+                img.addEventListener('click', function () {
+                    const src = this.getAttribute('data-image-src');
+                    document.getElementById('modalImage').setAttribute('src', src);
+                });
             });
         })
         .catch(error => {
